@@ -40,11 +40,11 @@ public class RedisConfig {
         // 직렬화/역직렬화 사용 이유
         // 복잡한 데이터 구조의 클래스의 객체라도 직렬화 기본 조건만 지키면 큰 작업 없이 바로 직렬화, 역직렬화가 가능
         // 데이터 타입이 자동으로 맞춰지기 때문에 관련 부분을 크게 신경 쓰지 않아도 됨
-
+        redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // JSON 포맷으로 저장
 
-        redisTemplate.setConnectionFactory(connectionFactory);
+
         return redisTemplate;
     }
     //redis config 출처 : https://velog.io/@gale4739/Spring-Boot-Redis-%EC%A0%81%EC%9A%A9%EA%B8%B0-With-lettuce

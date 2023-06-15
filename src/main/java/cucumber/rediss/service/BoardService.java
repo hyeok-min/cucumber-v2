@@ -7,6 +7,7 @@ import cucumber.rediss.repository.BoardRepository;
 import cucumber.rediss.repository.RredisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final RredisRepository rredisRepository;
     private final RredisService rredisService;
+
+    @Cacheable(value = "boardone",key = "#id")
     public Board findBoard(Long id){
         return boardRepository.findById(id).get(); }
 
@@ -40,6 +43,7 @@ public class BoardService {
     public Page<Board> findBoardByCategory(Category category, Pageable pageable) {
         return boardRepository.findByCategory(category,pageable); }
 
+    @Cacheable("topboard")
     public List<BoardDto> findTopBoard() {
         List<Board> topBoardEntityList = boardRepository.findTop10ByOrderByCountDesc();
         List<BoardDto> topBoardList = new ArrayList<>();
@@ -56,9 +60,11 @@ public class BoardService {
                     .build();
             topBoardList.add(boardDto);
         }
+
         return topBoardList;
     }
 
+    @CacheEvict(value = "createboard",key = "boardDto.id")
     @Transactional
     public void createBoard(Category category,BoardDto boardDto, MultipartFile file, String nickname) throws IOException {
         boardDto.setCreateTime(LocalDateTime.now());
@@ -99,7 +105,7 @@ public class BoardService {
     }
 
     @Transactional
-    @Cacheable(key = "#id",value = "user")
+    @Cacheable(key = "#id",value = "board")
     public Board detailBoard(Long id){
         Board board =boardRepository.findById(id).get();
         log.info("====detailboard in======");
