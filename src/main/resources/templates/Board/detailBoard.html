@@ -1,0 +1,127 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
+<th:block layout:fragment="content">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>글상세</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        table th {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+            background-color: dodgerblue;
+            color: cornsilk;
+        }
+        table td {
+            border: 1px solid #444444;
+            text-align: left;
+        }
+        .justify-content-between {
+            display: flex;
+            justify-content: space-between;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1 th:text="${category}"></h1><br/>
+<div style="text-align: center;">
+
+    <hr>
+    <form>
+        <table style="width: 600px; margin: auto">
+            <tr>
+                <td width="60" style="background-color: dodgerblue; color: cornsilk">제목</td>
+                <td>
+                    <div class="justify-content-between">
+                        <div> <p th:text="${boardDetail.title}"/> </div>
+                        <div> <p text=" "></p> </div>
+                        <div style="padding:0px 3px 0px 0px;">
+                            <a th:text="${#temporals.format(boardDetail.createDate, 'yyyy-MM-dd HH:mm')}"/>
+                            <a th:text="[수정됨] " th:if="${boardDetail.edit_count}!=0"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">작성자</td>
+                <td th:text="${boardDetail.writer}" /></td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">내용</td>
+                <td>
+                   <p> <text th:text="${boardDetail.content}" width="530px" height="auto" readonly/></p>
+<!--                    장문일경우 줄바꿈 추가-->
+                    <div th:if="${boardDetail.filepath!=null}">
+                        <img th:src="@{${boardDetail.filepath}}" style="width:300px;height:300;" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">조회수</td>
+                <td th:text="${boardDetail.count}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="text-align: right;">
+                        <button type="button" th:onclick="|location.href='@{/board/edit/{boardId}(boardId=${boardDetail.id})}'|"
+                                th:if="${boardDetail.writer}==${member}">수정</button>
+                        <button type="button" th:onclick="|location.href='@{/board/delete/{boardId}(boardId=${boardDetail.id})}'|"
+                                th:if="${boardDetail.writer}==${member}">삭제</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <div style="margin:auto; width: 600px; height:auto; border: 1px solid #D8D8D8; border-radius: 5px 5px 5px 5px; background-color:#D8D8D8">
+
+        <div align="left" th:if="${commentsize}==0">
+            <p style="margin-left:10px; font-size:17px" th:text="'Comment가 없습니다...'" ><hr></p></div>
+
+<!--        밑에 div태그 색 바꾸는법 찾기-->
+        <div align="left" style="height:auto background-color:white" th:if="${commentsize}>0"><p style="margin-left:10px; font-size:17px" th:text="${commentsize}+' Comment'" ></p>
+            <hr style="margin-top:-8px; margin-bottom:6px">
+            <span th:each="comments : ${commentAll}">
+                <span style="margin-left:3px;" th:text="${comments.writer}"></span>
+                <span style="font-size:8px" th:text=" ${#temporals.format(comments.createDate, 'yyyy-dd-MM HH:mm')}"></span>
+
+                <button type="button" th:onclick="|location.href='@{/board/comment/delete/{commentId}(commentId=${comments.id})}'|"
+                         th:if="${comments.writer}==${member}">삭제</button>
+
+                <br/>
+                <span style="margin-left:3px;" th:text="${comments.comment}"></span>
+                <br/>
+                <hr style="margin-top:5px; margin-bottom:6px">
+            </span>
+        </div>
+    </div>
+
+<div style="margin-top:10px;"></div>
+    <div style="margin:auto; width: 600px; height:169px; border: 1px solid #D8D8D8; border-radius: 5px 5px 5px 5px; background-color:#D8D8D8">
+        <div align="left"> <p style="margin-left:10px; margin-top:2px; font-size:17px">Comment Write</p> </div>
+
+        <form style="margin:10px 10px 0px 10px;"  th:action method="post">
+            <hr style="margin-top:-8px; margin-bottom:10px">
+            <textarea th:field="*{comment.comment}" class="form-control" rows="3" placeholder="댓글을 입력하세요. (50자 이하)"></textarea>
+            <hr style="margin-top:8px; margin-bottom:5px">
+            <div style="margin-bottom:15px" align="right">
+                <button type="submit" class="btn btn-primary" >입력</button>
+            </div>
+        </form>
+        <div align="right">
+            <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/board/category/{num}(num=${boardDetail.category})}'|" >목록</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</th:block>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
+
+<th:block layout:fragment="title">
+    <title>커뮤니티</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <div align="center" >
+        <h1>커뮤니티</h1>
+    </div>
+
+    <div style="margin:auto; width: 600px; height:auto; border: 1px solid white; border-radius: 5px 5px 5px 5px; background-color:#D8D8D8">
+
+        <!--        밑에 div태그 색 바꾸는법 찾기-->
+        <div align="left" style="height:auto background-color:white"><p style="margin-left:10px; font-size:17px"></p>
+            <hr style="margin-top:-8px; margin-bottom:6px">
+            <span th:each="communitys : ${communityAll}">
+                <span style="margin-left:3px;" th:text="${communitys.writer}"></span>
+                <span style="font-size:8px" th:text=" ${#temporals.format(communitys.createDate, 'yyyy-dd-MM HH:mm')}"></span>
+
+                <button type="button" th:onclick="|location.href='@{/community/{communityId}(communityId=${communitys.id})}'|"
+                        th:if="${communitys.writer}==${member}">삭제</button>
+                <br/>
+                <span style="margin-left:3px;" th:text="${communitys.content}"></span>
+                <br/>
+                <hr style="margin-top:5px; margin-bottom:6px">
+            </span>
+        </div>
+    </div>
+
+    <div style="margin:auto; width: 600px; height:169px; border: 1px solid white; border-radius: 5px 5px 5px 5px; background-color:#D8D8D8">
+        <div align="left"> <p style="margin-left:10px; margin-top:2px; font-size:17px">Comment Write</p> </div>
+
+        <form style="margin:10px 10px 0px 10px;"  th:action method="post">
+            <hr style="margin-top:-8px; margin-bottom:10px">
+            <textarea th:field="*{community.content}" class="form-control" rows="3" placeholder="글을 입력하세요. (50자 이하)"></textarea>
+            <hr style="margin-top:8px; margin-bottom:5px">
+            <div style="margin-bottom:15px" align="right">
+                <button type="submit" class="btn btn-primary" >입력</button>
+            </div>
+        </form>
+        <div align="right">
+            <button type="button" class="btn btn-primary">목록</button>
+        </div>
+    </div>
+</th:block>
+
+</html>

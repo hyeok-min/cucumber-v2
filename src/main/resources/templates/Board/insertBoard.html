@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<th:block layout:fragment="content">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        table th {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+            background-color: dodgerblue;
+            color: cornsilk;
+        }
+        table td {
+            border: 1px solid #444444;
+            text-align: left;
+        }
+        #title_text{
+        width:530px;
+      }
+    </style>
+</head>
+<body>
+<h1 th:text="${category}"></h1>
+<br/>
+<div style="text-align: center;">
+    <h2>글작성</h2>
+            <form th:action method="post" enctype="multipart/form-data">
+        <table style="width: 600px; margin: auto">
+            <tr>
+                <td width="70" style="background-color: dodgerblue; color: cornsilk">제목</td>
+                <td><input type="text" id="title_text" th:field="*{boardDto.title}" placeholder="제목을 입력하세요. (20자 이하)" name="title"/></td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">작성자</td>
+                <td><a sec:authorize="isAuthenticated()" th:text="${member}"/></td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">내용</td>
+                <td><textarea name="content" th:field="*{boardDto.content}" cols="70" rows="10"></textarea></td>
+            </tr>
+            <tr>
+                <td style="background-color: dodgerblue; color: cornsilk">파일</td>
+                <td><input type="file" name="file"/></td>
+            </tr>
+        </table>
+                <div style="width:835px ;text-align: right; margin-top:10px">
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+    </form>
+</div>
+</body>
+</th:block>
+</html>

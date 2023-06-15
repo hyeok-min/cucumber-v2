@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
+<th:block layout:fragment="content">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>회원수정</title>
+</head>
+<body>
+<h1>개인정보</h1><br/><br/>
+<div class="container" style="height:auto background-color:white">
+
+    <form action="/member/edit" th:object="${members}" method="post">
+        <div class="form-group" >
+            <label  th:for="name">이름</label>
+            <a th:text="*{name}"  style="width:400px;height:30px;font-size:16px; margin-top"></a>
+
+        </div>
+        <div class="form-group">
+            <label th:for="password">비밀번호</label>
+            <a th:text="*{password}" style="width:400px;height:30px;font-size:16px;"></a><span>  [비밀번호는 인코딩되어 보입니다]</span>
+        </div>
+        <div class="form-group">
+            <div>
+                <label th:for="nickname">닉네임</label>
+                <a th:text="*{nickname}" style="width:400px;height:30px;font-size:16px;"></a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label th:for="email">이메일</label>
+            <a th:text="*{email}" style="width:400px;height:30px;font-size:16px;"></a>
+            <div style="width:800px;  text-align: center;">
+            <br/>
+            <a th:href="@{/member/edit/}"><strong>수정</strong></a> &nbsp; &nbsp; &nbsp;
+            <a th:href="@{/member/delete}"><strong>회원탈퇴</strong></a>
+            </div>
+        </div>
+
+    </form>
+    <br/>
+</div>
+</body>
+</th:block>
+</html>

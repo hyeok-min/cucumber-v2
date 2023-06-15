@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
+<th:block layout:fragment="title">
+    <title>오이 마켓</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title>게시판 목록</title>
+        <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        table th {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+            background-color: dodgerblue;
+            color: cornsilk;
+        }
+        table td {
+            border: 1px solid #444444;
+            text-align: center;
+        }
+        li{
+            list-style:none;
+        }
+    </style>
+    </head>
+    <body>
+    <div style="float:left">
+        <h1 th:text="${category}"></h1>
+    </div>
+    <br/><br/>
+    <div style="float:right">
+        <form th:action="@{/board/category/{num}(num=${categoryNum})}" method="get">
+            <input type="text" style="width:300px" name="searchText" placeholder="검색">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <br/><br/><br/>
+<!--    <div style="float:right" th:if="searchText!=null">-->
+    <div style="float:right" th:if="${not #strings.isEmpty(param.searchText)}">
+        <span th:text="${param.searchText} +' 에 대한 결과입니다.'"></span>
+    </div>
+
+    <br/><br/><br/>
+    <div style="text-align: center;">
+
+        <table style="width: 700px; margin: auto">
+            <tr>
+                <th style="width: 10%">번호</th>
+                <th style="width: 45%">제목</th>
+                <th style="width: 15%">작성자</th>
+                <th style="width: 20%">등록일</th>
+                <th style="width: 10%">조회수</th>
+            </tr>
+            <tr>
+                <td style="color:red">공지</td>
+                <td style="color:red">비방글 금지</td>
+                <td style="color:red">관리자</td>
+                <td style="color:red">0000-00-00 00:00</td>
+                <td style="color:red">0</td>
+            </tr>
+
+            <tr th:each="boardLists : ${boardAll}">
+                <td th:text="${boardLists.id}">id></td>
+                <td>
+                    <a th:text="${boardLists.title}" th:href="@{/board/detail/{boardId}(boardId=${boardLists.id})}"></a>
+                </td>
+                <td th:text="${boardLists.writer}" >writer</td>
+                <td th:text="${#temporals.format(boardLists.createDate, 'yyyy-dd-MM HH:mm')}"></td>
+                <td th:text="${boardLists.count}">count></td>
+            </tr>
+            </forEach>
+        </table>
+        <div align="center" style="margin-top:10px;"> <a th:href="@{/board/category/insert/{numInsertG}(numInsertG=${num})}">새글 등록</a> </div>
+
+
+        <div class="center text-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justifiy-content-center" th:if="${totalPage != 0}">
+                    <li class="page-item"><a class="page-link" th:href="@{/board/category/{num}(num=${categoryNum},page=${boardAll.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a></li>
+                    <li class="" th:classappend="${page == boardAll.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a th:href="@{/board/category/{num}(num=${categoryNum},page=${page - 1}, searchText=${param.searchText})}" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" th:href="@{/board/category/{num}(num=${categoryNum},page=${boardAll.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+    </body>
+</th:block>
+</html>

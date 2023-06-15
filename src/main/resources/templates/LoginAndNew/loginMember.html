@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+    .center{
+     text-align: center;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <h1 class="center">오이마켓</h1><br/><br/>
+</head>
+<body>
+<div style="text-align:center">
+    <form action="/member/loginPro"  method="post">
+        <div style="display: inline-block; text-align: center;">
+            <label th:for="email" >이메일</label>
+            <input type="email" id="userEmail" name="userEmail"  class="form-control" placeholder="이메일을 입력하세요"
+                   style="width:400px;height:30px;font-size:16px; ">
+        </div>
+        <br/>
+        <div style="display: inline-block; text-align: center;">
+            <label th:for="password" style="margin-top:10px">비밀번호</label>
+            <input type="password" id="passWord" name="passWord" class="form-control" placeholder="비밀번호를 입력하세요"
+                   style="width:400px;height:30px;font-size:16px; margin-bottom:10px">
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-secondary" style="width:198px" id="btn-login" value="로그인">
+            <input type="button" class="btn btn-secondary" style="width:198px" value="간편회원가입" onclick="location.href='/member/new'">
+        </div>
+        <div>
+            <img src="/images/googleimg.png" style="width:440px; height:80px; margin:10px 30px 0px 30px" th:onclick="|location.href='@{/oauth2/authorization/google}'|">
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

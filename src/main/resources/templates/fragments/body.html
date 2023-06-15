@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body th:fragment="main-body">
+<style>
+	.disabled{
+		pointer-events: none; (a링크를 비활성화 해준다.)
+	}
+</style>
+<div id="adm_wrap">
+    <header>
+        <div class="head">
+            <h1><a href="/home"/><strong>오이마켓</strong></h1>
+            <div class="top_menu">
+                <div class="login_user"><strong><a sec:authorize="isAuthenticated()" th:text="${member}" class="disabled"/></strong> 님 반갑습니다.</div>
+                <a class="btn btn-lg btn-outline-secondary"  th:href="@{/member/logout}">로그아웃</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="container">
+        <div class="menu_toggle"><span></span></div>
+        <!--/* 좌측 영역 */-->
+        <div class="lcontent">
+            <!--/* 메뉴 */-->
+            <nav>
+                <ul>
+                    <li class="has_sub"><a class="on"><span>카테고리</span></a>
+                        <ul>
+                            <li><a href="/board/category/num0">디지털기기</a></li>
+                            <li><a href="/board/category/num1">생활가전</a></li>
+                            <li><a href="/board/category/num2">가구/인테리어</a></li>
+                            <li><a href="/board/category/num3">유아용품</a></li>
+                            <li><a href="/board/category/num4">뷰티/미용</a></li>
+                            <li><a href="/board/category/num5">의류</a></li>
+                            <li><a href="/board/category/num6">스포츠/레져</a></li>
+                            <li><a href="/board/category/num7">도서</a></li>
+                            <li><a href="/board/category/num8">반려동물</a></li>
+                            <li><a href="/board/category/num9">식물</a></li>
+                            <li><a href="/board/category/num10">기타</a></li>
+                        </ul>
+                        </li>
+                </ul>
+            </nav>
+            <nav>
+                <ul>
+                    <li class="has_sub"><a class="on"><span>지역별</span></a>
+                        <ul>
+                            <li><a href="/board/category/num11">서울</a></li>
+                            <li><a href="/board/category/num12">경기/인천</a></li>
+                            <li><a href="/board/category/num13">강원도</a></li>
+                            <li><a href="/board/category/num14">충청북도</a></li>
+                            <li><a href="/board/category/num15">충청남도</a></li>
+                            <li><a href="/board/category/num16">전라북도</a></li>
+                            <li><a href="/board/category/num17">전라남도</a></li>
+                            <li><a href="/board/category/num18">경상북도</a></li>
+                            <li><a href="/board/category/num19">경상남도</a></li>
+                            <li><a href="/board/category/num20">제주도</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav>
+                <ul>
+                    <li class="has_sub"><a class="on" href="/community"><span>커뮤니티</span></a></li>
+                    <li class="has_sub"><a class="on" href="/member/edit-auth"><span>개인정보</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!--/* 우측 영역 */-->
+        <div class="rcontent">
+
+            <!--/* 페이지별 컨텐츠 */-->
+            <th:block layout:fragment="content">
+
+            </th:block>
+
+        </div>
+    </div> <!--/* // #container */-->
+</div>
+</body>
+</html>

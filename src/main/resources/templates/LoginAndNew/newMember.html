@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.field-Error {
+ border-color: #bd2130;
+}
+
+</style>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div style="text-align:center;width:1350px">
+    <br/><br/>
+    <h1>회원가입</h1><br/>
+
+    <form  class="form-inline" action="/member/new" th:object="${newMemberForm}" method="post">
+        <div style="display: inline-block; text-align: left; margin-bottom:10px ">
+            <label th:for="name">&nbsp;&nbsp;이름</label>
+            <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" style="width:350px;height:30px;font-size:16px; margin-left:28px"
+                   th:errorclass="field-error" class="form-control">
+            <div class="field-error" th:errors="*{name}" style="text-align:center;"></div>
+        </div>
+
+        <div style="display: text-align: left; margin-bottom:10px ">
+            <label th:for="password">비밀번호</label>
+            <input type="password" th:field="*{password}" placeholder="비밀번호를입력하세요" style="width:350px;height:30px;font-size:16px; margin-left:10px"
+                   th:errorclass="field-error" class="form-control"><br/>
+            <div class="field-error" th:errors="*{password}"></div>
+        </div>
+
+        <div>
+            <div style="margin-bottom:10px ">
+            <label th:for="nickname">&nbsp;&nbsp;닉네임</label>
+            <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요" style="width:350px;height:30px;font-size:16px; margin-left:19px"
+                   th:errorclass="field-error"><br/>
+            </div>
+            <div class="field-error" th:errors="*{nickname}"></div>
+        </div>
+
+        <div style="margin-bottom:10px ">
+            <label th:for="email">&nbsp;&nbsp;이메일</label>
+            <input type="text" th:field="*{email}" class="form-control" placeholder="이메일을 입력하세요" style="width:350px;height:30px;font-size:16px; margin-left:19px"
+                   th:errorclass="field-error" >
+            <div class="field-error" th:errors="*{email}"></div>
+        </div>
+        <input type="button" class="btn btn-secondary" style="margin-right:19px" value="로그인" onclick="location.href='/'">
+        <button type="submit"  class="btn btn-primary">확인</button>
+    </form>
+    <br/>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
+
+<th:block layout:fragment="content">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>회원확인</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        table th {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+            background-color: dodgerblue;
+            color: cornsilk;
+        }
+        table td {
+            border: 1px solid #444444;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>본인확인</h1><br/><br/>
+    <form action="/member/edit-auth"  method="post"><!--th:object="${newMemberForm}"-->
+        <div class="form-group">
+            <div>
+                <label th:for="password"><a style="font-size:20px;">본인확인을 위한 비밀번호를 입력하세요.</a></label>
+
+            </div>
+            <div><input type="password" th:field="*{pw.pw}" placeholder="비밀번호를입력하세요"
+                   class="form-control" style="width:400px;height:30px;font-size:16px;">
+            <button type="submit" class="btn btn-primary">확인</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</th:block>
+
+</html>

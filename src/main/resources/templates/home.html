@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic" >
+<th:block layout:fragment="title">
+    <title>오이 마켓</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        table th {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+            background-color: dodgerblue;
+            color: cornsilk;
+        }
+        table td {
+            border: 1px solid #444444;
+            text-align: center;
+            height: 40px;
+        }
+        li{
+            list-style:none;
+        }
+    </style>
+<div class="page_tits">
+    <h2>인기매물 TOP10</h2>
+</div>
+<br/><br/>
+<div >
+    <div style="text-align: center;">
+
+        <table style="width: 800px; margin: auto">
+            <tr>
+                <th style="width: 8%">순위</th>
+                <th style="width: 12%">카테고리/지역</th>
+                <th style="width: 40%">제목</th>
+                <th style="width: 15%">작성자</th>
+                <th style="width: 18%">등록일</th>
+                <th style="width: 7%">조회수</th>
+            </tr>
+            <tr th:each="boardLists : ${topBoard}">
+                <td th:text="${boardLists.topNum}">id></td>
+                <td th:text="${boardLists.category}"></td>
+                <td>
+                    <a th:text="${boardLists.title}" th:href="@{/board/detail/{boardId}(boardId=${boardLists.id})}"></a>
+                </td>
+                <td th:text="${boardLists.writer}" >writer</td>
+                <td th:text="${#temporals.format(boardLists.createTime, 'yyyy-dd-MM HH:mm')}"></td>
+                <td th:text="${boardLists.count}">count></td>
+            </tr>
+            </forEach>
+        </table>
+</div> <!--/* .content */-->
+</div>
+</th:block>
+
+</html>
