@@ -102,13 +102,16 @@ public class BoardService {
     @Cacheable(key = "#id",value = "user")
     public Board detailBoard(Long id){
         Board board =boardRepository.findById(id).get();
-        if(rredisService.isUserInter(id)){
+        log.info("====detailboard in======");
+        if(rredisService.isUserEnter(id)){
+            log.info("====service isuserinter in======");
             return board;
         }
-
+        log.info("====service isuserinter out======");
         board.setCount(board.getCount()+1);
         boardRepository.save(board);
-        return board; }
+        return board;
+    }
 
     @Transactional
     public void deleteBoard(long id){

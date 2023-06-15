@@ -30,8 +30,8 @@ public class RedisConfig {
     // 출력값을 String으로 제한두지 않으려고 <String, Object>로 변경
 
     @Bean
-    public RedisTemplate<Long, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<Long, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
         // setKeySerializer, setValueSerializer 사용 이유
         // RedisTemplate 사용 시에 Spring-Redis 간 데이터 직렬화, 역직렬화에 사용하는 방식이 Jdk 직렬화 방식
