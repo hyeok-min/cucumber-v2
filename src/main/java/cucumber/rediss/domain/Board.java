@@ -18,10 +18,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SequenceGenerator(name = "BOARD_SEQ_GENERATOR")
 public class Board {
 
-    @Id @GeneratedValue(generator = "BOARD_SEQ_GENERATOR")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
 

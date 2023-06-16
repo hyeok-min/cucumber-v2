@@ -11,10 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SequenceGenerator(name = "COMMUNITY_SEQ_GENERATOR")
 public class Community {
     @Id
-    @GeneratedValue(generator = "COMMUNITY_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "community_id")
     private Long id;
 
