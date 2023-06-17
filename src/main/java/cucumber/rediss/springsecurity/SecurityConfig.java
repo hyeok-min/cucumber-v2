@@ -31,7 +31,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .usernameParameter("userEmail")
                 .passwordParameter("passWord")
                 .loginProcessingUrl("/member/loginPro")//form 태그의 Action URL.
-                .defaultSuccessUrl("/home")//로그인인증 성공후 갈 페이지
+                .defaultSuccessUrl("/home",true)//로그인인증 성공후 갈 페이지
                 .failureForwardUrl("/loginFail")
                 .permitAll()
                 .and()
