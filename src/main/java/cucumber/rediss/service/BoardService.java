@@ -8,7 +8,9 @@ import cucumber.rediss.repository.RredisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,9 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final RredisRepository rredisRepository;
     private final RredisService rredisService;
 
-    @Cacheable(value = "boardone",key = "#id")
+    @Cacheable(value = "boardOne",key = "#id")
     public Board findBoard(Long id){
         return boardRepository.findById(id).get(); }
 
@@ -59,12 +60,11 @@ public class BoardService {
                     .count(board.getCount())
                     .build();
             topBoardList.add(boardDto);
+
         }
 
         return topBoardList;
     }
-
-    @CacheEvict(value = "createboard",key = "boardDto.id")
     @Transactional
     public void createBoard(Category category,BoardDto boardDto, MultipartFile file, String nickname) throws IOException {
         boardDto.setCreateTime(LocalDateTime.now());
@@ -105,27 +105,28 @@ public class BoardService {
     }
 
     @Transactional
-    @Cacheable(key = "#id",value = "board")
+    @Cacheable(key = "#id",value = "boarddetail")
     public Board detailBoard(Long id){
         Board board =boardRepository.findById(id).get();
-        log.info("====detailboard in======");
         if(rredisService.isUserEnter(id)){
-            log.info("====service isuserinter in======");
             return board;
         }
-        log.info("====service isuserinter out======");
         board.setCount(board.getCount()+1);
         boardRepository.save(board);
         return board;
     }
 
+    @Caching(// 한 메소드에 여러 어노테이션이 필요할때 그룹화 해줌.
+        evict = {@CacheEvict(key = "#id",value = "boarddetail"),@CacheEvict(key = "#id",value = "boardOne")})
     @Transactional
     public void deleteBoard(long id){
         Board board =boardRepository.findById(id).get();
         boardRepository.deleteById(board.getId()); }
 
+
+    @CachePut(key = "#boardId",value = "boarddetail")
     @Transactional
-    public void updateBoard(long boardId,BoardDto boardDto, MultipartFile file) throws IOException {   //더티체킹 이용
+    public Board updateBoard(long boardId,BoardDto boardDto, MultipartFile file) throws IOException {   //더티체킹 이용
         Board board =boardRepository.findById(boardId).get();
         board.updateCreateDate(LocalDateTime.now());    //수정시간
         board.setEdit_count(boardDto.getEdit_count()+1);
@@ -144,6 +145,7 @@ public class BoardService {
 
             board.updateFilename(boardDto.setFilename(filename));
             board.updateFilepath(boardDto.setFilepath("/files/" + filename)); }
+        return board;
     }
 
 //================init board=====================================
