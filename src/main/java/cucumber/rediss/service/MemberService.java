@@ -5,6 +5,7 @@ import cucumber.rediss.dto.MemberDto;
 import cucumber.rediss.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +67,7 @@ public class MemberService {
         return memberRepository.findByNickname(valid_name); }
 
     //로그인 사용자 정보 표시 메서드
+    @Cacheable(key = "#principal.getName()",value = "enterUser")
     public String loadMemberByNickname(Principal principal){
         return findMemberByEmail(principal).getNickname(); }
 
