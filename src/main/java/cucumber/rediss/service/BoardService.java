@@ -149,19 +149,19 @@ public class BoardService {
     }
 
 //================init board=====================================
-//    @PostConstruct
-//    public void initboard(){
-//        for(int i=1; i<21; i++) {
-//            Board board = Board.builder()
-//                    .title("첫 게시물")
-//                    .writer("사용자"+i)
-//                    .content("안녕하세요")
-//                    .createDate(LocalDateTime.now())
-//                    .count((long) 21-i)
-//                    .edit_count(0L)
-//                    .category(Category.valueOf("num"+i))
-//                    .build();
-//            boardRepository.save(board);
-//        }
-//    }
+    @PostConstruct
+    public void initboard(){
+        for(int i=1; i<21; i++) {
+            Board board = Board.builder()
+                    .title("첫 게시물")
+                    .writer("사용자"+i)
+                    .content("안녕하세요")
+                    .createDate(LocalDateTime.now())
+                    .count((long) 21-i)
+                    .edit_count(0L)
+                    .category(Category.valueOf("num"+i))
+                    .build();
+            boardRepository.save(board);
+        }
+    }
 }
