@@ -4,7 +4,6 @@ import cucumber.rediss.domain.Board;
 import cucumber.rediss.domain.Category;
 import cucumber.rediss.dto.BoardDto;
 import cucumber.rediss.repository.BoardRepository;
-import cucumber.rediss.repository.RredisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,7 +30,7 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final RredisService rredisService;
+
 
     @Cacheable(value = "boardOne",key = "#id")
     public Board findBoard(Long id){
@@ -108,9 +107,7 @@ public class BoardService {
     @Cacheable(key = "#id",value = "boarddetail")
     public Board detailBoard(Long id){
         Board board =boardRepository.findById(id).get();
-        if(rredisService.isUserEnter(id)){
-            return board;
-        }
+
         board.setCount(board.getCount()+1);
         boardRepository.save(board);
         return board;
