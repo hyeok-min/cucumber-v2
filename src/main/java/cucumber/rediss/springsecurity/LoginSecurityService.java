@@ -17,12 +17,12 @@ public class LoginSecurityService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
 
-    @Override   //loadUserByUsername의 함수에서 매개변수인 userEmail은 html일 경우 name="userEmail" 과 동일해야 한다
+    @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         log.info("securityservice in");
         Member findMember=memberRepository.findByEmail(userEmail);
         if(findMember!=null)
-        return new LoginSecurityMember(findMember); //시큐리티의 세션에 유저정보가 저장이됨.
+        return new LoginSecurityMember(findMember);
 
         return null;
     }

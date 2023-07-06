@@ -16,15 +16,11 @@ public class LoginSecurityMember implements UserDetails {
     private Member member;
     private Map<String, Object> attributes;
 
-    // 일반로그인
+
     public LoginSecurityMember(Member member) {
         this.member = member;
     }
-    // OAuth 로그인
-    public LoginSecurityMember(Member member, Map<String, Object> attributes) {
-        this.member = member;
-        this.attributes = attributes;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
